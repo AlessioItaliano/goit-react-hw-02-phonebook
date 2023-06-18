@@ -1,10 +1,13 @@
-const ContactList = ({ contactsBook }) => {
+const ContactList = ({ filteredContacts }) => {
   //   console.log(contactsBook);
   return (
     <ul>
-      {contactsBook.map(contact => (
-        <li key={contact.name}>
+      {filteredContacts.map(contact => (
+        <li key={contact.id}>
           {contact.name}:{contact.number}
+          {/* <button type="button" onClick={() => onClick(contact.id)}>
+            Delete
+          </button> */}
         </li>
       ))}
     </ul>
