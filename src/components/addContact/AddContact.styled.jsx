@@ -32,7 +32,7 @@ export const AddContactFormBtn = styled.button`
   cursor: pointer;
   border-radius: 10px;
   border: 1.5px solid blue;
-  font-size: 20px;
+  font-size: 21px;
   :hover {
     background-color: yellow;
   }
