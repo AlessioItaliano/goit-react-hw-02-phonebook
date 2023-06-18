@@ -2,9 +2,10 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 
 import AddContact from 'components/addContact';
-import Section from 'components/section';
 import ContactList from 'components/contactList';
 import ContactsFilter from './contactsFilter/ContactsFilter';
+
+import { Title } from './App.styled';
 
 class App extends Component {
   state = {
@@ -33,15 +34,17 @@ class App extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     const { name, number } = this.state;
+    const newContact = { id: nanoid(), name: name, number: number };
     const form = e.currentTarget;
 
-    if (name) {
-      const newContact = { id: nanoid(), name: name, number: number };
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, newContact],
-      }));
-    }
+    this.state.contacts.find(contact => contact.name === name)
+      ? window.alert(`${name} is alredy in contacts.`)
+      : this.setState(prevState => {
+          return { contacts: [...prevState.contacts, newContact] };
+        });
+
     form.reset();
   };
 
@@ -59,21 +62,20 @@ class App extends Component {
 
   render() {
     const filteredContacts = this.filteredContacts();
+
     return (
       <>
-        <Section title="Phonebook">
-          <AddContact
-            handleSubmit={this.handleSubmit}
-            handleChangeName={this.handleChangeName}
-            handleChangeNumber={this.handleChangeNumber}
-          ></AddContact>
-        </Section>
-        <Section title="Contacts">
-          <ContactsFilter
-            filterSerchContacts={this.filterSerchContacts}
-          ></ContactsFilter>
-          <ContactList filteredContacts={filteredContacts}></ContactList>
-        </Section>
+        <Title>Phonebook</Title>
+        <AddContact
+          handleSubmit={this.handleSubmit}
+          handleChangeName={this.handleChangeName}
+          handleChangeNumber={this.handleChangeNumber}
+        ></AddContact>
+        <Title>Contacts</Title>
+        <ContactsFilter
+          filterSerchContacts={this.filterSerchContacts}
+        ></ContactsFilter>
+        <ContactList filteredContacts={filteredContacts}></ContactList>
       </>
     );
   }
