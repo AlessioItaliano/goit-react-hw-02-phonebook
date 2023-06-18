@@ -60,9 +60,13 @@ class App extends Component {
     );
   };
 
-  render() {
-    const filteredContacts = this.filteredContacts();
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
 
+  render() {
     return (
       <>
         <Title>Phonebook</Title>
@@ -75,7 +79,10 @@ class App extends Component {
         <ContactsFilter
           filterSerchContacts={this.filterSerchContacts}
         ></ContactsFilter>
-        <ContactList filteredContacts={filteredContacts}></ContactList>
+        <ContactList
+          filteredContacts={this.filteredContacts()}
+          deleteContact={this.deleteContact}
+        ></ContactList>
       </>
     );
   }

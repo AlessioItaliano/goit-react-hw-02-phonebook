@@ -1,16 +1,16 @@
-// import { nanoid } from 'nanoid';
-// import { Component } from 'react';
+import PropTypes from 'prop-types';
+import {
+  AddContactForm,
+  AddContactFormLabel,
+  AddContactFormInput,
+  AddContactFormBtn,
+} from './AddContact.styled';
 
-const AddContact = ({
-  handleSubmit,
-  contactId,
-  handleChangeName,
-  handleChangeNumber,
-}) => {
+const AddContact = ({ handleSubmit, handleChangeName, handleChangeNumber }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Name</label>
-      <input
+    <AddContactForm onSubmit={handleSubmit}>
+      <AddContactFormLabel>Name</AddContactFormLabel>
+      <AddContactFormInput
         type="text"
         name="name"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -18,8 +18,8 @@ const AddContact = ({
         required
         onChange={handleChangeName}
       />
-      <label>Number</label>
-      <input
+      <AddContactFormLabel>Number</AddContactFormLabel>
+      <AddContactFormInput
         type="tel"
         name="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -27,9 +27,15 @@ const AddContact = ({
         required
         onChange={handleChangeNumber}
       />
-      <button type="submit">Add contact</button>
-    </form>
+      <AddContactFormBtn type="submit">Add contact</AddContactFormBtn>
+    </AddContactForm>
   );
+};
+
+AddContact.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  handleChangeName: PropTypes.func.isRequired,
+  handleChangeNumber: PropTypes.func.isRequired,
 };
 
 export default AddContact;

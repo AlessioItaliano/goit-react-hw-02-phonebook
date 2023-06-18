@@ -1,17 +1,31 @@
-const ContactList = ({ filteredContacts }) => {
-  //   console.log(contactsBook);
+import PropTypes from 'prop-types';
+import {
+  ContactListUl,
+  ContactItem,
+  ContactDeleteButton,
+} from './ContactList.styled';
+
+const ContactList = ({ filteredContacts, deleteContact }) => {
   return (
-    <ul>
+    <ContactListUl>
       {filteredContacts.map(contact => (
-        <li key={contact.id}>
+        <ContactItem key={contact.id}>
           {contact.name}:{contact.number}
-          {/* <button type="button" onClick={() => onClick(contact.id)}>
+          <ContactDeleteButton
+            type="button"
+            onClick={() => deleteContact(contact.id)}
+          >
             Delete
-          </button> */}
-        </li>
+          </ContactDeleteButton>
+        </ContactItem>
       ))}
-    </ul>
+    </ContactListUl>
   );
+};
+
+ContactList.propTypes = {
+  filteredContacts: PropTypes.array.isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
 
 export default ContactList;
