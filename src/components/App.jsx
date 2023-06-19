@@ -18,40 +18,26 @@ class App extends Component {
     filter: '',
   };
 
-  handleChangeName = e => {
-    const value = e.target.value;
-    this.setState({
-      name: value,
+  handleSubmit = ({ name, number }) => {
+    const isExist = this.state.contacts.find(
+      contact => contact.name.toLocaleLowerCase() === name.toLowerCase()
+    );
+
+    if (isExist) {
+      window.alert(`${name} is alredy in contacts.`);
+      return;
+    }
+    this.setState(prevState => {
+      return {
+        contacts: [...prevState.contacts, { id: nanoid(), name, number }],
+      };
     });
-  };
-
-  handleChangeNumber = e => {
-    const value = e.target.value;
-    this.setState({
-      number: value,
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-
-    const { name, number } = this.state;
-    const newContact = { id: nanoid(), name: name, number: number };
-    const form = e.currentTarget;
-
-    this.state.contacts.find(contact => contact.name === name)
-      ? window.alert(`${name} is alredy in contacts.`)
-      : this.setState(prevState => {
-          return { contacts: [...prevState.contacts, newContact] };
-        });
-
-    form.reset();
   };
 
   filterSerchContacts = e => {
-    const { name, value } = e.currentTarget;
+    const { value } = e.currentTarget;
 
-    this.setState({ [name]: value.toLowerCase() });
+    this.setState({ filter: value.toLowerCase() });
   };
 
   filteredContacts = () => {
@@ -70,19 +56,13 @@ class App extends Component {
     return (
       <>
         <Title>Phonebook</Title>
-        <AddContact
-          handleSubmit={this.handleSubmit}
-          handleChangeName={this.handleChangeName}
-          handleChangeNumber={this.handleChangeNumber}
-        ></AddContact>
+        <AddContact handleSubmit={this.handleSubmit} />
         <Title>Contacts</Title>
-        <ContactsFilter
-          filterSerchContacts={this.filterSerchContacts}
-        ></ContactsFilter>
+        <ContactsFilter filterSerchContacts={this.filterSerchContacts} />
         <ContactList
           filteredContacts={this.filteredContacts()}
           deleteContact={this.deleteContact}
-        ></ContactList>
+        />
       </>
     );
   }
